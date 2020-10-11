@@ -44,3 +44,37 @@ input[type=radio] {
   border-radius: 20%;
   margin-right: 5px;
 }
+
+.tabelbuah {
+  font-family: serif;
+  border: 1px solid #000000;
+  margin: 0 auto;
+}
+
+.tabelbuah tr th {
+  background-color: #8f8989;
+}
+
+
+.tabelbuah tr td {
+  background-color: #ff5a44;
+}
+
+.tabelnama {
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.tabelharga {
+  padding-left: 70px;
+  padding-right: 70px;
+}
+
+.tabelberat {
+  padding-left: 70px;
+  padding-right: 70px;
+}
+
+.judul{
+  text-align: center;
+}
