@@ -20,7 +20,7 @@ class Clock extends React.Component {
     componentDidUpdate()
     {
         if (this.state.date===this.state.date.setSeconds(10)){
-            this.state.show = false
+            this.setState.show = false
         }
     }
 

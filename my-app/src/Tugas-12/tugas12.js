@@ -1,160 +1,176 @@
-import React from 'react';
-/*
-class TabelNama extends React.Component {
-    render() {
-        return <div>{this.props.nama}</div>;
-    }
-}
+import React, {Component} from "react"
+import "./DaftarBuah.css"
 
-class TabelHarga extends React.Component {
-    render() {
-        return <div>{this.props.harga}</div>;
-    }
-}
-  
-class TabelBerat extends React.Component {
-    render() {
-        return <div>{this.props.berat}</div>;
-    }
-}*/
-  
-  class Tugas12 extends React.Component {
-    constructor(props){
-        super(props)
-        this.state ={
-         dataHargaBuah : [ {nama: "Semangka", harga: 10000, berat: 1000},
-         {nama: "Anggur", harga: 40000, berat: 500},
-         {nama: "Strawberry", harga: 30000, berat: 400},
-         {nama: "Jeruk", harga: 30000, berat: 1000},
-         {nama: "Mangga", harga: 30000, berat: 500} ],
-         inputBuah: "",
-         inputHarga: "",
-         inputBerat: "",
-         index: -1  
-        }
-        // bind in constructor
-        this.handleEdit = this.handleEdit.bind(this)
-      }
+class DaftarBuah extends Component{
 
-       // method with normal function
-    handleSubmit(event){
-    event.preventDefault()
-    let index = this.state.index
-    let inputBuah = this.state.inputBuah
-    let inputHarga = this.state.inputHarga
-    let inputBerat = this.state.inputBerat
-    let dataHargaBuah = this.state.dataHargaBuah
-    
-    // if index -1 means submit create
-    if (index === -1){
-      this.setState({dataHargaBuah: [...dataHargaBuah, inputBuah], inputBuah: ""})
-      this.setState({dataHargaBuah: [...dataHargaBuah, inputHarga], inputHarga: ""})
-      this.setState({dataHargaBuah: [...dataHargaBuah, inputBerat], inputBerat: ""})
+  constructor(props){
+    super(props)
+    this.state = {
+     daftarBuah : [
+      {nama: "Semangka", harga: 10000, berat: 1000},
+      {nama: "Anggur", harga: 40000, berat: 500},
+      {nama: "Strawberry", harga: 30000, berat: 400},
+      {nama: "Jeruk", harga: 30000, berat: 1000},
+      {nama: "Mangga", harga: 30000, berat: 500}
+    ],
+     inputName : "",
+     inputHarga : "",
+     inputBerat : 0,
+     /// array tidak punya index -1
+     indexOfForm: -1    
+    }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+ 
+  handleDelete(event){
+    let index = event.target.value
+    let newDaftarBuah = this.state.daftarBuah
+    let editedDataBuah = newDaftarBuah[this.state.indexOfForm]
+    newDaftarBuah.splice(index, 1)
+
+    if (editedDataBuah !== undefined){
+      // array findIndex baru ada di ES6
+      var newIndex = newDaftarBuah.findIndex((el) => el === editedDataBuah)
+      this.setState({daftarBuah: newDaftarBuah, indexOfForm: newIndex})
+      
     }else{
-      // means submit edit
-      dataHargaBuah.nama[index] = inputBuah
-      dataHargaBuah.harga[index] = inputHarga
-      dataHargaBuah.berat[index] = inputBerat
-      this.setState({dataHargaBuah, inputBuah: "",})
-      this.setState({dataHargaBuah, inputHarga: "",})
-      this.setState({dataHargaBuah, inputBerat: "",})
+      
+      this.setState({daftarBuah: newDaftarBuah})
     }
+    
   }
-
+  
   handleEdit(event){
-    let index = event.target.value;
-    this.setState({inputBuah: this.state.dataHargaBuah.nama[index], index})
-    this.setState({inputHarga: this.state.dataHargaBuah.harga[index], index})
-    this.setState({inputBerat: this.state.dataHargaBuah.berat[index], index})
-
-  }
-
-  //method with arrow function
-  handleInputBuahChange = (event) =>{
-    var value = event.target.value
+    let index = event.target.value
+    let dataBuah = this.state.daftarBuah[index]
     this.setState({
-      inputBuah: value,
-    })
-  }
-  handleInputHargaChange = (event) =>{
-    var value = event.target.value
-    this.setState({
-      inputHarga: value,
-    })
-  }
-  handleInputBeratChange = (event) =>{
-    var value = event.target.value
-    this.setState({
-      inputBerat: value,
+      inputName: dataBuah.nama,
+      inputHarga: dataBuah.harga,
+      inputBerat: dataBuah.berat,
+      indexOfForm: index
     })
   }
 
-  handleDelete = (event) =>{
-    let index = event.target.value;
-    this.state.dataHargaBuah.splice(index, 1)
-    this.setState({dataHargaBuah: this.state.dataHargaBuah})
-  }
-
-    render() {
-        return (
-            <>
-            <h1 className="judul">Tabel Harga Buah</h1>
-            <table className="tabelbuah">
-            <tr>
-                <th className="tabelnomor">Nomor</th>
-                <th className="tabelnama">Nama</th>
-                <th className="tabelharga">Harga</th>
-                <th className="tabelberat">Berat</th>
-                <th className="tabelaksi">Aksi</th>
-            </tr>
-            {
-               this.state.dataHargaBuah.map((val,index)=>{
-                var number = index+1; 
-                return (
-                        <tr>
-                            <td>
-                            {number}
-                            </td>
-                            <td>
-                            {val.nama}
-                            </td>
-                            <td>
-                            {val.harga}
-                            </td>
-                            <td>
-                            {val.berat}
-                            </td>
-                            <td>
-                            <button  value={index} onClick={this.handleEdit}>Edit</button>
-                            <button style={{marginLeft: "1em"}} value={index} onClick={this.handleDelete}>Delete</button>
-                            </td>
-                        </tr>
-                )
-            })}
-            </table>
-            <br></br>
-            <form style={{textAlign: "center"}} onSubmit={this.handleSubmit.bind(this)}>
-          <label>
-            Masukkan buah:
-          </label>          
-          <input type="text" required onChange={this.handleInputBuahChange} value={this.state.inputBuah} />
-          <br></br>
-          <label>
-            Masukkan harga:
-          </label>          
-          <input type="text" required onChange={this.handleInputHargaChange} value={this.state.inputHarga} />
-          <br></br>
-          <label>
-            Masukkan berat:
-          </label>          
-          <input type="text" required onChange={this.handleInputBeratChange} value={this.state.inputBerat} />
-          <br></br>
-          <input type="submit" value="Submit" className="buttonsubmit" />
-        </form>
-
-            </>
-        )
+  handleChange(event){
+    let typeOfInput = event.target.name
+    switch (typeOfInput){
+      case "name":
+      {
+        this.setState({inputName: event.target.value});
+        break
+      }
+      case "harga":
+      {
+        this.setState({inputHarga: event.target.value});
+        break
+      }
+      case "berat":
+      {
+        this.setState({inputBerat: event.target.value});
+          break
+      }
+    default:
+      {break;}
     }
+  }
+
+  handleSubmit(event){
+    // menahan submit
+    event.preventDefault()
+
+    let nama = this.state.inputName
+    let harga = this.state.inputHarga.toString()
+    let berat = this.state.inputBerat
+
+
+    let newDaftarBuah = this.state.daftarBuah
+    let index = this.state.indexOfForm
+    
+    if (index === -1){
+      newDaftarBuah = [...newDaftarBuah, {nama, harga, berat}]
+    }else{
+      newDaftarBuah[index] = {nama, harga, berat}
+    }
+
+    this.setState({
+      daftarBuah: newDaftarBuah,
+      inputName: "",
+      inputHarga: "",
+      inputBerat: 0
+    })
+
+  }
+
+  render(){
+    return(
+      <>
+        <h1>Daftar Harga Buah</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+              <th>Harga</th>
+              <th>Berat</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+              {
+                this.state.daftarBuah.map((item, index)=>{
+                  return(                    
+                    <tr key={index}>
+                      <td>{index+1}</td>
+                      <td>{item.nama}</td>
+                      <td>{item.harga}</td>
+                      <td>{item.berat/1000} kg</td>
+                      <td>
+                        <button onClick={this.handleEdit} value={index}>Edit</button>
+                        &nbsp;
+                        <button onClick={this.handleDelete} value={index}>Delete</button>
+                      </td>
+                    </tr>
+                  )
+                })
+              }
+          </tbody>
+        </table>
+        {/* Form */}
+        <h1>Form Daftar Harga Buah</h1>
+        <div style={{width: "50%", margin: "0 auto", display: "block"}}>
+          <div style={{border: "1px solid #aaa", padding: "20px"}}>
+            <form onSubmit={this.handleSubmit}>
+              <label style={{float: "left"}}>
+                Nama:
+              </label>
+              <input style={{float: "right"}} type="text" required name="name" value={this.state.inputName} onChange={this.handleChange}/>
+              <br/>
+              <br/>
+              <label style={{float: "left"}}>
+                Harga:
+              </label>
+              <input style={{float: "right"}} type="text" required name="harga" value={this.state.inputHarga} onChange={this.handleChange}/>
+              <br/>
+              <br/>
+              <label style={{float: "left"}}>
+                Berat (dalam gram):
+              </label>
+              <input style={{float: "right"}} type="number" required name="berat" value={this.state.inputBerat} onChange={this.handleChange}/>
+              <br/>
+              <br/>
+              <div style={{width: "100%", paddingBottom: "20px"}}>
+                <button style={{ float: "right"}}>submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </>
+    )
+  }
 }
 
-export default Tugas12;
+export default DaftarBuah
