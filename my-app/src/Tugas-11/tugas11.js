@@ -1,121 +1,63 @@
-import React from 'react';
+import React, {Component} from 'react'
 
-class Clock extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {date: new Date(),show:true};
-    }
-
-    componentDidMount() {
-      this.timerID = setInterval(
-        () => this.tick(),
-        1000
-      );
-    }
-
-    componentWillUnmount() {
-      clearInterval(this.timerID);
-    }
-  
-    componentDidUpdate()
-    {
-        if (this.state.date===this.state.date.setSeconds(10)){
-            this.setState.show = false
-        }
-    }
-
-    tick() {
-      this.setState({
-        date: new Date()
-      });
-    }
-  
-    render() {
-      return (
-          <>
-          {
-              this.state.date && (
-                <div>
-                <h1>sekarang jam : {this.state.date.toLocaleTimeString()}</h1>
-              </div>
-              )
-          }
-          </>
-      )
+class Tugas11 extends Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      time: 100,
+      date: new Date(),
+      visibleTime: true
     }
   }
 
+  componentDidMount(){
+    if (this.props.start !== undefined){
+      this.setState({time: this.props.start})
+    }
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
 
-  
-
-  class Timer extends React.Component{
-    constructor(props){
-      super(props)
-      this.state = {
-        time: 100,
-        show: true
+  componentDidUpdate(){
+    if (this.state.visibleTime === true){
+      if (this.state.time <= 0){
+        this.setState({visibleTime: false})
       }
     }
+  }
 
-    componentDidMount(){
-      if (this.props.start !== undefined){
-        this.setState({time: this.props.start})
-      }
-      this.timerID = setInterval(
-        () => this.tick(),
-        1000
-      );
+  componentWillUnmount(){
+    clearInterval(this.timerID);
+  }
 
-    
-    }
+  tick() {
+    this.setState({
+      time: this.state.time - 1,
+      date: new Date() 
+    });
+  }
 
-    componentDidUpdate()
-    {
-        if(this.state.time === 0)
+
+  render(){
+    return(
+      <>
         {
-            this.state.show = false
-        }
-    }
-  
-    componentWillUnmount(){
-      clearInterval(this.timerID);
-    }
-  
-    tick() {
-      this.setState({
-        time: this.state.time - 1 
-      });
-    }
-
-    
-
-    render(){
-      return(
-        <>
-            {
-            this.state.show && (
-            <h1>
-            hitung mundur : {this.state.time}
-            </h1>
-                )
-            }
-        </>
-      )
-    }
-  }
-
-
-class Tugas11 extends React.Component{
-    render(){
-        return(
+          this.state.visibleTime && (
             <>
-                <div style={{display:"flex",justifyContent:"center"}}>
-                <div><Clock/></div>
-                <div style={{paddingLeft:"100px"}}><Timer/></div>
-                </div>
+              <h1 style={{float: "left"}}>
+                Sekarang jam - {this.state.date.toLocaleTimeString()}.
+              </h1>
+              <h1 style={{float: "right"}}>
+                hitung Mundur: {this.state.time}
+              </h1>
             </>
-        )
-    }
+          )
+        }
+      </>
+    )
+  }
 }
 
-export default Tugas11;
+export default Tugas11
