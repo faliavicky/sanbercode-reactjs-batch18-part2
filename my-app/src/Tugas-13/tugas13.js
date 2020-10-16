@@ -16,19 +16,19 @@ const DaftarBuah = () => {
   }, [daftarBuah])
   
   const handleDelete = (event) => {
-    let idDataBuah = parseInt(event.target.value)
+    let dataDataBuah = parseInt(event.target.value)
 
     // cara 1
-    // let newdaftarBuah = daftarBuah.filter(el => el.id !== idDataBuah)
+    // let newdaftarBuah = daftarBuah.filter(el => el.id !== dataDataBuah)
     // setDaftarBuah([...newdaftarBuah])
-    // axios.delete(`http://backendexample.sanbercloud.com/api/fruits/${idDataBuah}`)
+    // axios.delete(`http://backendexample.sanbercloud.com/api/fruits/${dataDataBuah}`)
     // .then(res => {
     //   console.log(res)
     // })
 
 
     // cara 2
-    axios.delete(`http://backendexample.sanbercloud.com/api/fruits/${idDataBuah}`)
+    axios.delete(`http://backendexample.sanbercloud.com/api/fruits/${dataDataBuah}`)
     .then(() => {
       setDaftarBuah(null)
     })
@@ -38,17 +38,17 @@ const DaftarBuah = () => {
   
   const handleEdit = (event) =>{
     // cara 1 ambil data dari daftarBuah yg di inisialisasi di awal (bukan api baru)
-    // let idDataBuah = parseInt(event.target.value)
-    // let dataBuah = daftarBuah.find(x=> x.id === idDataBuah)
-    // setInput({name: dataBuah.name, price: dataBuah.price, weight: dataBuah.weight, id: idDataBuah})
+    // let dataDataBuah = parseInt(event.target.value)
+    // let dataBuah = daftarBuah.find(x=> x.id === dataDataBuah)
+    // setInput({name: dataBuah.name, price: dataBuah.price, weight: dataBuah.weight, id: dataDataBuah})
     
     // cara 2 ambil data dari api baru
-    let idDataBuah = parseInt(event.target.value)
+   // let dataDataBuah = parseInt(event.target.value)
         
-    axios.get(`http://backendexample.sanbercloud.com/api/fruits/${idDataBuah}`)
+    axios.get(`http://backendexample.sanbercloud.com/api/fruits`)
     .then(res => {
       let dataBuah = res.data
-      setInput({name: dataBuah.name, price: dataBuah.price, weight: dataBuah.weight, id: idDataBuah})
+      setInput({name: dataBuah.name, price: dataBuah.price, weight: dataBuah.weight, id: dataBuah.id})
     })
   
   }
@@ -97,9 +97,11 @@ const DaftarBuah = () => {
             }])
       })
     }else{
-      axios.put(`http://backendexample.sanbercloud.com/api/fruits/${input.id}`, {name, price, weight: input.weight})
+      let dataDataBuah = parseInt(event.target.value)
+      axios.put(`http://backendexample.sanbercloud.com/api/fruits/${dataDataBuah}`, {name, price, weight: input.weight})
       .then(() => {
-          let dataBuah = daftarBuah.find(el=> el.id === input.id)
+          
+          let dataBuah = daftarBuah.find(el=> el.id === dataDataBuah.id)
           dataBuah.name = name
           dataBuah.price = price
           dataBuah.weight = input.weight
