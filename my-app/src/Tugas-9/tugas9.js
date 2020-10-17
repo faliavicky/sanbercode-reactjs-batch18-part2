@@ -3,7 +3,7 @@ import React from 'react';
 function Tugas9() {
     return (
         <div className="App" style={{display:"flex", justifyContent:"center"}}>
-        <div style={{fontFamily: "serif", border:"1.5px black solid", width:"500px", borderRadius:"10px", marginTop:"100px"}}>
+        <div style={{fontFamily: "serif", border:"1.5px black solid", width:"500px", borderRadius:"10px"}}>
           <h1 style={{paddingTop:"20px"}}>Form Pembelian Buah</h1>
           <form style={{paddingLeft:"20px"}}>
             <label style={{float:"left"}}>
